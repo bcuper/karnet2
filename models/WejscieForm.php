@@ -19,12 +19,14 @@ class WejscieForm extends ActiveRecord
         return [
             [['opis', 'cena', 'rodz', 'kasjer_id', 'data_dodania'], 'required'],
             [['kasjer_id'], 'integer'],
-            [['cena'], 'double'],
+            [['cena'], 'number', 'numberPattern' => '/^\s*[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?\s*$/'],
             [['rodz'], 'string'],
             [['data_dodania'], 'safe'],
             [['opis'], 'string', 'max' => 50],
         ];
     }
+
+
 
     public function attributeLabels()
     {

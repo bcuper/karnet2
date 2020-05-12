@@ -41,4 +41,9 @@ class Kasjerzy extends \yii\db\ActiveRecord
             'kasjer' => 'Kasjer',
         ];
     }
+
+    public function getOperacje()
+    {
+        return $this->hasMany(Operacje::className(), ['kasjer_id'=>'id']);
+    }
 }

@@ -32,7 +32,7 @@ class KarnetController extends \yii\web\Controller
             $operacje->rodz = $zForm['rodz'];
             if ($operacje->save()) {
                 return $this->redirect(['operacje/index']);
-        }
+            }
         }
 
         $kasjerzy = Kasjerzy::find()->asArray()->all();
@@ -52,6 +52,21 @@ class KarnetController extends \yii\web\Controller
     public function actionPrzekroczenie()
     {
         $model = new WejscieForm();
+
+        if (Yii::$app->request->post()) {
+            $zForm = Yii::$app->request->post('WejscieForm');
+
+            $operacje = new Operacje();
+            $operacje->data_dodania = $zForm['data_dodania'];
+            $operacje->cena = $zForm['cena'];
+            $operacje->kasjer_id = $zForm['kasjer_id'];
+            $operacje->opis = $zForm['opis'];
+            $operacje->rodz = $zForm['rodz'];
+            if ($operacje->save()) {
+                return $this->redirect(['operacje/index']);
+            }
+        }
+
         $kasjerzy = Kasjerzy::find()->asArray()->all();
         $model->data_dodania = date('Y-m-d H:i:s');
         $model->opis = "Przekroczenie czasu";

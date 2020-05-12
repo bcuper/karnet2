@@ -30,8 +30,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'opis',
             'cena',
             'rodz',
-            'kasjer_id',
-            //'data_dodania',
+            //'kasjer_id',
+            [
+                    'attribute' => 'kasjer_id',
+                'value' => 'kasjer.kasjer',
+            ],
+            'data_dodania',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
@@ -39,3 +43,4 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 </div>
+

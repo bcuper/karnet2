@@ -32,11 +32,21 @@ class Operacje extends \yii\db\ActiveRecord
         return [
             [['opis', 'cena', 'rodz', 'kasjer_id'], 'required'],
             [['kasjer_id'], 'integer'],
-            [['cena'], 'double'],
+            [['cena'], 'number', 'numberPattern' => '/^\s*[-+]?[0-9]*[.,]?[0-9]+([eE][-+]?[0-9]+)?\s*$/'],
             [['rodz'], 'string'],
             [['data_dodania'], 'safe'],
             [['opis'], 'string', 'max' => 50],
         ];
+    }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            $this->cena = str_replace(',','.', $this->cena);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -53,4 +63,10 @@ class Operacje extends \yii\db\ActiveRecord
             'data_dodania' => 'Data Dodania',
         ];
     }
+
+    public function getKasjer()
+    {
+        return $this->hasOne(Kasjerzy::className(), ['id' => 'kasjer_id']);
+    }
+
 }

@@ -10,7 +10,7 @@ $form = ActiveForm::begin([
 
 <?= $form->field($model, 'opis') ?>
 <?= $form->field($model, 'cena')->dropDownList(\yii\helpers\ArrayHelper::map($cennik, 'cena', 'nazwa'), ['onChange'=>'zmianaMiejsca()'])->label('Miejsce') ?>
-<?= $form->field($model, 'rodz')->dropDownList(['-'=>'-', '+'=>'+']) ?>
+<?= $form->field($model, 'rodz')->dropDownList(['-'=>'-']) ?>
 <?= $form->field($model, 'kasjer_id')->dropDownList(\yii\helpers\ArrayHelper::map($kasjerzy, 'id', 'kasjer'))->label('Kasjer')?>
 <?= $form->field($model, 'data_dodania')->widget(
     'trntv\yii\datetime\DateTimeWidget',

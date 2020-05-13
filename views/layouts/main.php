@@ -46,6 +46,7 @@ AppAsset::register($this);
                     ['label' => 'Cennik', 'url' => ['/cennik/index']],
                     ['label' => 'Kasjer', 'url' => ['/kasjerzy/index']],
                     ['label' => 'Operacje', 'url' => ['/operacje/index']],
+                    ['label' => 'Doładowania', 'url' => ['/doladowania/index']],
             ]],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]

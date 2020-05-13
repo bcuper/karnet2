@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Cennik;
+use app\models\Doladowania;
 use app\models\Kasjerzy;
 use app\models\Operacje;
 use app\models\WejscieForm;
@@ -75,6 +76,38 @@ class KarnetController extends \yii\web\Controller
             'model' => $model,
             'kasjerzy' => $kasjerzy,
     ]);
+    }
+
+    public function actionDoladowanie()
+    {
+
+        $model = new WejscieForm();
+
+        if (Yii::$app->request->post()) {
+            $zForm = Yii::$app->request->post('WejscieForm');
+
+            $operacje = new Operacje();
+            $operacje->data_dodania = $zForm['data_dodania'];
+            $operacje->cena = $zForm['cena'];
+            $operacje->kasjer_id = $zForm['kasjer_id'];
+            $operacje->opis = $zForm['opis'];
+            $operacje->rodz = $zForm['rodz'];
+            if ($operacje->save()) {
+                return $this->redirect(['operacje/index']);
+            }
+        }
+
+        $doladowania = Doladowania::find()->asArray()->all();
+        $kasjerzy = Kasjerzy::find()->asArray()->all();
+
+        $model->data_dodania = date('Y-m-d H:i:s');
+        $model->opis = $doladowania[0]['opis'];
+
+        return $this->render('doladowanie', [
+            'model' => $model,
+            'doladowania' => $doladowania,
+            'kasjerzy' => $kasjerzy,
+        ]);
     }
 
 }

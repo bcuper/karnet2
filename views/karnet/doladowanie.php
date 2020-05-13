@@ -1,15 +1,16 @@
-<h2>Nowe przekroczenie czasu</h2>
+<h2>Nowe doładowanie karnetu</h2>
+
 <?php
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 $form = ActiveForm::begin([
-     'options' => ['class' => 'form-horizontal'],
+    'options' => ['class' => 'form-horizontal'],
     'method' => 'POST',
 ]) ?>
 
 <?= $form->field($model, 'opis') ?>
-<?= $form->field($model, 'cena') ?>
-<?= $form->field($model, 'rodz')->dropDownList(['-'=>'-']) ?>
+<?= $form->field($model, 'cena')->dropDownList(\yii\helpers\ArrayHelper::map($doladowania, 'cena', 'opis'), ['onChange'=>'zmianaMiejsca()'])->label('Miejsce') ?>
+<?= $form->field($model, 'rodz')->dropDownList(['+'=>'+']) ?>
 <?= $form->field($model, 'kasjer_id')->dropDownList(\yii\helpers\ArrayHelper::map($kasjerzy, 'id', 'kasjer'))->label('Kasjer')?>
 <?= $form->field($model, 'data_dodania')->widget(
     'trntv\yii\datetime\DateTimeWidget',
@@ -36,4 +37,9 @@ $form = ActiveForm::begin([
 </div>
 <?php ActiveForm::end(); ?>
 
-
+<script>
+    function zmianaMiejsca() {
+        var miejsce = $("#wejscieform-cena :selected").text();
+        $('#wejscieform-opis').val(miejsce);
+    }
+</script>

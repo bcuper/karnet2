@@ -75,7 +75,7 @@ INSERT INTO `operacje` (`id`, `opis`, `cena`, `rodz`, `kasjer_id`, `data_dodania
 (4, 'Przekroczenie czasu', '0.22', '-', 1, '2020-05-13 08:29:00'),
 (5, 'Przekroczenie czasu', '0.33', '-', 1, '2020-05-13 09:39:00'),
 (6, 'Przekroczenie czasu', '1.21', '-', 1, '2020-05-13 09:45:00'),
-(7, 'Doładowanie 150 zł na 90 dni', '150.00', '+', 1, '2020-05-13 10:02:00');</code></p>
+(7, 'Doładowanie 150 zł na 90 dni', '150.00', '+', 1, '2020-05-13 10:02:00');
 
 
 DROP TABLE IF EXISTS `user`;
@@ -94,3 +94,5 @@ CREATE TABLE IF NOT EXISTS `user` (
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `password_reset_token` (`password_reset_token`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+</code></p>

@@ -35,32 +35,37 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            ['label' => 'Karnet', 'url' => ['/karnet/index']],
-            ['label' => 'Crudy', 'items' => [
+
+    $navItems = [
+        ['label' => 'Home', 'url' => ['/site/index']],
+        ['label' => 'About', 'url' => ['/site/about']],
+        ['label' => 'Contact', 'url' => ['/site/contact']],
+        ['label' => 'Karnet', 'url' => ['/karnet/index']],
+    ];
+
+    if (Yii::$app->user->isGuest) {
+        $navItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+    } else {
+        $navItems[] = ['label' => 'Crudy', 'items' => [
                     ['label' => 'Cennik', 'url' => ['/cennik/index']],
                     ['label' => 'Kasjer', 'url' => ['/kasjerzy/index']],
                     ['label' => 'Operacje', 'url' => ['/operacje/index']],
                     ['label' => 'Doładowania', 'url' => ['/doladowania/index']],
-            ]],
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
+            ]];
+        $navItems[] = '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
                     'Logout (' . Yii::$app->user->identity->username . ')',
                     ['class' => 'btn btn-link logout']
                 )
                 . Html::endForm()
-                . '</li>'
-            )
-        ],
+                . '</li>';
+    }
+
+
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav navbar-right'],
+        'items' => $navItems,
     ]);
     NavBar::end();
     ?>

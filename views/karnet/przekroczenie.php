@@ -17,14 +17,19 @@ $form = ActiveForm::begin([
         'phpDatetimeFormat' => 'YYYY-MM-DD HH:mm',
         'momentDatetimeFormat' => 'YYYY-MM-DD HH:mm',
         'clientOptions' => [
+            'date' => 'null',
+            'defaultDate' => 'moment',
             'allowInputToggle' => true,
             'showClose' => true,
             'showClear' => true,
             'locale' => 'pl-PL',
+            'showTodayButton' => true,
+            'useCurrent' => true,
             'widgetPositioning' => [
                 'horizontal' => 'auto',
                 'vertical' => 'auto'
             ],
+
         ],
     ]
 ); ?>

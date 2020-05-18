@@ -13,7 +13,16 @@ class KarnetController extends \yii\web\Controller
 {
     public function actionIndex()
     {
-        return $this->render('index');
+        $operacje = Operacje::find()->joinWith('kasjer')->orderBy('data_dodania DESC')->limit(10)->all();
+        $saldo = Operacje::obliczSaldo();
+        $koniecKarnetu = Operacje::koniecKarnetu();
+        $ileWejsc = Cennik::ileWejsc($saldo);
+        return $this->render('index', [
+            'operacje' => $operacje,
+            'saldo' => $saldo,
+            'koniecKarnetu' => $koniecKarnetu,
+            'ileWejsc' => $ileWejsc,
+        ]);
     }
 
     /**
@@ -22,6 +31,12 @@ class KarnetController extends \yii\web\Controller
      */
     public function actionWejscie()
     {
+
+        if (Yii::$app->user->isGuest) {
+            Yii::$app->session->setFlash('alert', 'Musisz byc zalogowany by dodać wejście!!!');
+            $this->redirect(['site/login']);
+        }
+
         if (Yii::$app->request->post()) {
             $zForm = Yii::$app->request->post('WejscieForm');
 
@@ -32,7 +47,7 @@ class KarnetController extends \yii\web\Controller
             $operacje->opis = $zForm['opis'];
             $operacje->rodz = $zForm['rodz'];
             if ($operacje->save()) {
-                return $this->redirect(['operacje/index']);
+                return $this->redirect(['karnet/index']);
             }
         }
 
@@ -40,7 +55,7 @@ class KarnetController extends \yii\web\Controller
         $cennik = Cennik::find()->asArray()->all();
 
         $model = new WejscieForm();
-        $model->data_dodania = date('Y-m-d H:i:s');
+        //$model->data_dodania = date('Y-m-d H:i:s');
         $model->opis = "Wejście " . $cennik[0]['nazwa'];
 
         return $this->render('wejscie', [
@@ -52,6 +67,12 @@ class KarnetController extends \yii\web\Controller
 
     public function actionPrzekroczenie()
     {
+
+        if (Yii::$app->user->isGuest) {
+            Yii::$app->session->setFlash('alert', 'Musisz byc zalogowany by dodać przekroczenie!!!');
+            $this->redirect(['site/login']);
+        }
+
         $model = new WejscieForm();
 
         if (Yii::$app->request->post()) {
@@ -64,12 +85,12 @@ class KarnetController extends \yii\web\Controller
             $operacje->opis = $zForm['opis'];
             $operacje->rodz = $zForm['rodz'];
             if ($operacje->save()) {
-                return $this->redirect(['operacje/index']);
+                return $this->redirect(['karnet/index']);
             }
         }
 
         $kasjerzy = Kasjerzy::find()->asArray()->all();
-        $model->data_dodania = date('Y-m-d H:i:s');
+        //$model->data_dodania = date('Y-m-d H:i:s');
         $model->opis = "Przekroczenie czasu";
 
         return $this->render('przekroczenie', [
@@ -81,6 +102,11 @@ class KarnetController extends \yii\web\Controller
     public function actionDoladowanie()
     {
 
+        if (Yii::$app->user->isGuest) {
+            Yii::$app->session->setFlash('alert', 'Musisz byc zalogowany by dodać wejście!!!');
+            $this->redirect(['site/login']);
+        }
+
         $model = new WejscieForm();
 
         if (Yii::$app->request->post()) {
@@ -93,14 +119,14 @@ class KarnetController extends \yii\web\Controller
             $operacje->opis = $zForm['opis'];
             $operacje->rodz = $zForm['rodz'];
             if ($operacje->save()) {
-                return $this->redirect(['operacje/index']);
+                return $this->redirect(['karnet/index']);
             }
         }
 
         $doladowania = Doladowania::find()->asArray()->all();
         $kasjerzy = Kasjerzy::find()->asArray()->all();
 
-        $model->data_dodania = date('Y-m-d H:i:s');
+        //$model->data_dodania = date('Y-m-d H:i:s');
         $model->opis = $doladowania[0]['opis'];
 
         return $this->render('doladowanie', [

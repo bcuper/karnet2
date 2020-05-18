@@ -44,4 +44,18 @@ class Cennik extends \yii\db\ActiveRecord
             'cena' => 'Cena',
         ];
     }
+
+    public static function ileWejsc($saldo)
+    {
+        $miejsca = self::find()->all();
+        $ret = [];
+        $i = 0;
+        foreach ($miejsca as $miejsce) {
+            $ret[$i]['nazwa'] = $miejsce->nazwa;
+            $ret[$i]['cena'] = $miejsce->cena;
+            $ret[$i]['ile'] = $saldo/$miejsce->cena;
+            $i++;
+        }
+        return $ret;
+    }
 }

@@ -41,6 +41,7 @@ AppAsset::register($this);
         ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
         ['label' => 'Karnet', 'url' => ['/karnet/index']],
+        ['label' => 'Oplaty', 'url' => ['oplaty/kalkulator']],
     ];
 
     if (Yii::$app->user->isGuest) {
@@ -51,6 +52,7 @@ AppAsset::register($this);
                     ['label' => 'Kasjer', 'url' => ['/kasjerzy/index']],
                     ['label' => 'Operacje', 'url' => ['/operacje/index']],
                     ['label' => 'Doładowania', 'url' => ['/doladowania/index']],
+                    ['label' => 'Opłaty', 'url' => ['/oplaty/index']],
             ]];
         $navItems[] = '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
